@@ -53,3 +53,37 @@ pip install .
 
 #### Tutorial
 Virtual KO experiment:<br> https://github.com/yjgeno/GenKI/blob/master/notebook/Example.ipynb <br>
+
+---
+
+### Changelog
+
+#### 2026-03-13 — Python 3.12 compatibility & environment modernization
+
+**Environment**
+- Replaced the single `environment.yml` (Python 3.9.6, PyTorch 1.11) with three platform-specific conda environment files:
+  - `genki_macos_arm64.yaml` — macOS Apple Silicon (M1/M2/M3/M4); uses default PyPI wheels which include MPS acceleration. Sets `KMP_DUPLICATE_LIB_OK=TRUE` via `conda env variables` to prevent the PyTorch/OpenMP library conflict on macOS.
+  - `genki_linux_gpu.yaml` — Linux x86_64 with NVIDIA GPU; installs PyTorch 2.4+ from the CUDA 12.1 wheel index.
+  - `genki_cpu.yaml` — CPU-only for Linux x86_64 or macOS Intel; installs PyTorch 2.4+ from the PyTorch CPU wheel index.
+- All environments now use Python 3.12, PyTorch ≥ 2.4, scanpy ≥ 1.12, anndata ≥ 0.10, and numba ≥ 0.61.
+
+**Package (setup.py)**
+- Updated all pinned/stale dependency versions to ranges compatible with Python 3.12:
+  - `anndata==0.8.0` → `>=0.10`
+  - `matplotlib~=3.5.1` → `>=3.8`
+  - `pandas~=1.4.2` → `>=2.0`
+  - `scanpy==1.9.1` → `>=1.12`
+  - `scipy~=1.8.0` → `>=1.12`
+  - `statsmodels~=0.13.2` → `>=0.14`
+  - `ray>=1.11.0` → `>=2.30`
+  - `tqdm~=4.64.0` → `>=4.66`
+  - `numpy>=1.21.6` → `>=1.24,<2.4` (numba upper-bound)
+- `pip install .` now completes successfully on Python 3.12.
+
+**Codebase cleanup**
+- Removed accidental file `=1.17.0` (captured conda install output).
+- Removed empty `MANIFEST.in`.
+- Removed `instructions.txt` (one-line note superseded by README).
+- Removed `requirements.txt` (stale duplicate of `setup.py` dependencies).
+- Removed `genki_env.yaml` (intermediate draft superseded by the three new YAML files).
+- Removed deprecated MATLAB compatibility notebook.
