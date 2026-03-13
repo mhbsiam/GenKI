@@ -1,0 +1,88 @@
+name: genki
+# Conda environment for GenKI on Linux (x86_64, CUDA 12.1 GPU)
+# Created: 2026-03-13
+#
+# Setup:
+#   conda env create -f genki_linux_gpu.yaml
+#   conda activate genki
+#
+# PyTorch is installed via pip with CUDA 12.1 wheels from the PyTorch index.
+# To verify CUDA is available after activation:
+#   python -c "import torch; print('CUDA:', torch.cuda.is_available())"
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # ── Python runtime ──────────────────────────────────────────────────
+  - python=3.12
+  - pip>=24.0
+
+  # ── Core scientific stack ────────────────────────────────────────────
+  - numpy>=1.24,<2.4        # numba 0.61 compatible range
+  - scipy>=1.12
+  - pandas>=2.0
+  - matplotlib-base>=3.8    # omits Qt/GTK backends (safe for headless servers)
+  - seaborn>=0.13
+  - h5py>=3.9
+  - tqdm>=4.66
+  - statsmodels>=0.14       # Used in GenKI/utils.py (OLS regression)
+
+  # ── Bioinformatics ───────────────────────────────────────────────────
+  - anndata>=0.10            # scanpy 1.12 hard-requires anndata>=0.10
+  - hdf5>=1.14               # ensures h5py and anndata share the same HDF5 ABI
+
+  # ── Statistics & graph utilities ─────────────────────────────────────
+  - patsy>=0.5
+  - networkx>=3.2
+  - natsort>=8.4
+  - joblib>=1.3
+
+  # ── Dimensionality reduction ──────────────────────────────────────────
+  - numba>=0.61              # 0.61+ required for Python 3.12
+  - umap-learn>=0.5.6
+
+  # ── Graph-based clustering ────────────────────────────────────────────
+  - leidenalg>=0.10
+  - louvain>=0.6.3           # 0.6.2 excluded (known bug)
+
+  # ── Data I/O ──────────────────────────────────────────────────────────
+  - dask-core>=2024.2
+  - fsspec>=2024.2
+  - zarr>=2.17
+
+  # ── Packaging & build ─────────────────────────────────────────────────
+  - packaging>=24.0
+  - setuptools-scm>=8.0
+  - flit-core>=3.9
+
+  # ── Developer & testing tools ─────────────────────────────────────────
+  - black>=24.0
+  - pytest>=8.0
+  - pytest-nunit
+
+  # ── Notebook ──────────────────────────────────────────────────────────
+  - ipywidgets>=8.1
+  - notebook>=7.2
+
+  - pip:
+    # ── PyTorch — CUDA 12.1 wheels ──────────────────────────────────────
+    - --index-url https://download.pytorch.org/whl/cu121
+    - torch>=2.4
+    - torchvision>=0.19
+    - torchaudio>=2.4
+
+    # ── Graph Neural Networks ───────────────────────────────────────────
+    - torch_geometric>=2.5
+    - tensorboard>=2.17
+
+    # ── ML & bioinformatics ─────────────────────────────────────────────
+    - scikit-learn>=1.4
+    - scikit-misc>=0.3
+    - scanpy>=1.12
+    - ray>=2.30
+
+    # ── Misc ────────────────────────────────────────────────────────────
+    - session-info
+    - flit
