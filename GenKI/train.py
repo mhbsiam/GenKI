@@ -192,9 +192,12 @@ class VGAE_trainer():
         plot_latent_z: bool, whether to plot nodes with random sampled latent features.
         """
         self.model.eval()
-        _ = self.model.encode(data.x, data.edge_index) 
-        z_m = self.model.__mu__.detach().numpy()
-        z_S = (self.model.__logstd__.exp() ** 2).detach().numpy()  # variance
+        device = next(self.model.parameters()).device
+        x = data.x.to(device)
+        edge_index = data.edge_index.to(device)
+        _ = self.model.encode(x, edge_index) 
+        z_m = self.model.__mu__.detach().cpu().numpy()
+        z_S = (self.model.__logstd__.exp() ** 2).detach().cpu().numpy()  # variance
         if plot_latent_mu:
             # z_np = z.detach().numpy()
             fig, ax = plt.subplots(figsize=(6, 6), dpi=80)
