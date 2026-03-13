@@ -52,7 +52,7 @@ pip install .
 <br/>
 
 #### Tutorial
-Virtual KO experiment:<br> https://github.com/yjgeno/GenKI/blob/master/notebook/Example.ipynb <br>
+Virtual KO experiment:<br> https://github.com/yjgeno/GenKI/blob/master/notebook/notebook.ipynb <br>
 
 ---
 
