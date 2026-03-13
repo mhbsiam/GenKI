@@ -8,17 +8,16 @@ PACKAGES = find_packages(exclude=("tests*",))
 exec(open('GenKI/version.py').read())
 
 INSTALL_REQUIRES = [
-        "anndata==0.8.0",
-        "matplotlib~=3.5.1",
-        "numpy>=1.21.6",
-        "pandas~=1.4.2",
-        "ray>=1.11.0",
-        "scanpy==1.9.1",
-        "scipy~=1.8.0",
-        "statsmodels~=0.13.2",
-        "scikit_learn>=1.0.2",
-        # "torch==1.11.0",
-        "tqdm~=4.64.0",
+        "anndata>=0.10",
+        "matplotlib>=3.8",
+        "numpy>=1.24,<2.4",
+        "pandas>=2.0",
+        "ray>=2.30",
+        "scanpy>=1.12",
+        "scipy>=1.12",
+        "statsmodels>=0.14",
+        "scikit-learn>=1.4",
+        "tqdm>=4.66",
     ]
 
 setup(
@@ -47,6 +46,6 @@ setup(
     "Programming Language :: Python :: 3",
     ],
     packages=PACKAGES,
-    include_package_data=True, # MANIFEST
+    include_package_data=True,
     install_requires=INSTALL_REQUIRES,
 )
